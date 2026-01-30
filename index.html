@@ -26,7 +26,6 @@
             width: 90%;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
-            overflow: hidden;
         }
 
         th,
@@ -59,39 +58,17 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .logo,
-        .logo-placeholder {
+        .logo {
             width: 100px;
             height: 100px;
             margin: 0 auto 10px;
-        }
-
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .logo-placeholder {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
-            color: #fff;
+            font-size: 14px;
             background-color: rgba(255, 255, 255, 0.2);
+            color: white;
             border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
-        }
-
-        .logo-placeholder:hover {
-            background-color: rgba(255, 255, 255, 0.4);
-            transform: scale(1.1);
-        }
-
-        .team h3 {
-            font-size: 16px;
-            margin: 5px 0;
         }
 
         button {
@@ -146,347 +123,131 @@
 
 <body>
 
-    <h1>⚽ League One Table ⚽</h1>
+    <!-- LIVE LEAGUE ONE TABLE -->
+    <h1>⚽ Live League One Table ⚽</h1>
+    <div class="fwp-embed" data-url="league-one/league-table"></div>
+    <script src="https://www.footballwebpages.co.uk/embed.js" defer></script>
 
+    <!-- PREDICTION GRID -->
+    <h1>⚽ Predict This Round ⚽</h1>
+    <div class="team-grid">
+
+        <!-- 24 teams with placeholder logos -->
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Lincoln City</h3><button class="win" onclick="vote('Lincoln City','Win')">Win</button><button class="draw" onclick="vote('Lincoln City','Draw')">Draw</button><button class="lose" onclick="vote('Lincoln City','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Cardiff City</h3><button class="win" onclick="vote('Cardiff City','Win')">Win</button><button class="draw" onclick="vote('Cardiff City','Draw')">Draw</button><button class="lose" onclick="vote('Cardiff City','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Bradford City</h3><button class="win" onclick="vote('Bradford City','Win')">Win</button><button class="draw" onclick="vote('Bradford City','Draw')">Draw</button><button class="lose" onclick="vote('Bradford City','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Bolton Wanderers</h3><button class="win" onclick="vote('Bolton Wanderers','Win')">Win</button><button class="draw" onclick="vote('Bolton Wanderers','Draw')">Draw</button><button class="lose" onclick="vote('Bolton Wanderers','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Stevenage</h3><button class="win" onclick="vote('Stevenage','Win')">Win</button><button class="draw" onclick="vote('Stevenage','Draw')">Draw</button><button class="lose" onclick="vote('Stevenage','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Huddersfield Town</h3><button class="win" onclick="vote('Huddersfield Town','Win')">Win</button><button class="draw" onclick="vote('Huddersfield Town','Draw')">Draw</button><button class="lose" onclick="vote('Huddersfield Town','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Stockport County</h3><button class="win" onclick="vote('Stockport County','Win')">Win</button><button class="draw" onclick="vote('Stockport County','Draw')">Draw</button><button class="lose" onclick="vote('Stockport County','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Wycombe Wanderers</h3><button class="win" onclick="vote('Wycombe Wanderers','Win')">Win</button><button class="draw" onclick="vote('Wycombe Wanderers','Draw')">Draw</button><button class="lose" onclick="vote('Wycombe Wanderers','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Reading</h3><button class="win" onclick="vote('Reading','Win')">Win</button><button class="draw" onclick="vote('Reading','Draw')">Draw</button><button class="lose" onclick="vote('Reading','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Luton Town</h3><button class="win" onclick="vote('Luton Town','Win')">Win</button><button class="draw" onclick="vote('Luton Town','Draw')">Draw</button><button class="lose" onclick="vote('Luton Town','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Barnsley</h3><button class="win" onclick="vote('Barnsley','Win')">Win</button><button class="draw" onclick="vote('Barnsley','Draw')">Draw</button><button class="lose" onclick="vote('Barnsley','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Exeter City</h3><button class="win" onclick="vote('Exeter City','Win')">Win</button><button class="draw" onclick="vote('Exeter City','Draw')">Draw</button><button class="lose" onclick="vote('Exeter City','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Mansfield Town</h3><button class="win" onclick="vote('Mansfield Town','Win')">Win</button><button class="draw" onclick="vote('Mansfield Town','Draw')">Draw</button><button class="lose" onclick="vote('Mansfield Town','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Plymouth Argyle</h3><button class="win" onclick="vote('Plymouth Argyle','Win')">Win</button><button class="draw" onclick="vote('Plymouth Argyle','Draw')">Draw</button><button class="lose" onclick="vote('Plymouth Argyle','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Peterborough United</h3><button class="win" onclick="vote('Peterborough United','Win')">Win</button><button class="draw" onclick="vote('Peterborough United','Draw')">Draw</button><button class="lose" onclick="vote('Peterborough United','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>AFC Wimbledon</h3><button class="win" onclick="vote('AFC Wimbledon','Win')">Win</button><button class="draw" onclick="vote('AFC Wimbledon','Draw')">Draw</button><button class="lose" onclick="vote('AFC Wimbledon','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Doncaster Rovers</h3><button class="win" onclick="vote('Doncaster Rovers','Win')">Win</button><button class="draw" onclick="vote('Doncaster Rovers','Draw')">Draw</button><button class="lose" onclick="vote('Doncaster Rovers','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Northampton Town</h3><button class="win" onclick="vote('Northampton Town','Win')">Win</button><button class="draw" onclick="vote('Northampton Town','Draw')">Draw</button><button class="lose" onclick="vote('Northampton Town','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Blackpool</h3><button class="win" onclick="vote('Blackpool','Win')">Win</button><button class="draw" onclick="vote('Blackpool','Draw')">Draw</button><button class="lose" onclick="vote('Blackpool','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Wigan Athletic</h3><button class="win" onclick="vote('Wigan Athletic','Win')">Win</button><button class="draw" onclick="vote('Wigan Athletic','Draw')">Draw</button><button class="lose" onclick="vote('Wigan Athletic','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Burton Albion</h3><button class="win" onclick="vote('Burton Albion','Win')">Win</button><button class="draw" onclick="vote('Burton Albion','Draw')">Draw</button><button class="lose" onclick="vote('Burton Albion','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Rotherham United</h3><button class="win" onclick="vote('Rotherham United','Win')">Win</button><button class="draw" onclick="vote('Rotherham United','Draw')">Draw</button><button class="lose" onclick="vote('Rotherham United','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Leyton Orient</h3><button class="win" onclick="vote('Leyton Orient','Win')">Win</button><button class="draw" onclick="vote('Leyton Orient','Draw')">Draw</button><button class="lose" onclick="vote('Leyton Orient','Lose')">Lose</button></div>
+
+        <div class="team"><div class="logo">Image Coming Soon</div><h3>Port Vale</h3><button class="win" onclick="vote('Port Vale','Win')">Win</button><button class="draw" onclick="vote('Port Vale','Draw')">Draw</button><button class="lose" onclick="vote('Port Vale','Lose')">Lose</button></div>
+
+    </div>
+
+    <!-- Vote Results + Leaderboard -->
+    <div id="voteResults"><h2>Vote Results</h2></div>
+    <div id="leaderboard"><h2>Leaderboard</h2><ol id="leaderboardList"></ol></div>
+
+    <!-- Predicted Table -->
+    <h1>⚽ Predicted League One Table (as of 31 Jan 2026) ⚽</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Pos</th>
-                <th>Team</th>
-                <th>Pts</th>
-            </tr>
-        </thead>
+        <thead><tr><th>Pos</th><th>Team</th><th>Pts</th></tr></thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Lincoln City</td>
-                <td>89</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Cardiff City</td>
-                <td>87</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Bradford City</td>
-                <td>84</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Bolton Wanderers</td>
-                <td>82</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Stevenage</td>
-                <td>78</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>Huddersfield Town</td>
-                <td>74</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>Stockport County</td>
-                <td>73</td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>Wycombe Wanderers</td>
-                <td>65</td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>Reading</td>
-                <td>64</td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>Luton Town</td>
-                <td>63</td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td>Barnsley</td>
-                <td>62</td>
-            </tr>
-            <tr>
-                <td>12</td>
-                <td>Exeter City</td>
-                <td>60</td>
-            </tr>
-            <tr>
-                <td>13</td>
-                <td>Mansfield Town</td>
-                <td>59</td>
-            </tr>
-            <tr>
-                <td>14</td>
-                <td>Plymouth Argyle</td>
-                <td>58</td>
-            </tr>
-            <tr>
-                <td>15</td>
-                <td>Peterborough United</td>
-                <td>56</td>
-            </tr>
-            <tr>
-                <td>16</td>
-                <td>AFC Wimbledon</td>
-                <td>52</td>
-            </tr>
-            <tr>
-                <td>17</td>
-                <td>Doncaster Rovers</td>
-                <td>51</td>
-            </tr>
-            <tr>
-                <td>18</td>
-                <td>Northampton Town</td>
-                <td>51</td>
-            </tr>
-            <tr>
-                <td>19</td>
-                <td>Blackpool</td>
-                <td>50</td>
-            </tr>
-            <tr>
-                <td>20</td>
-                <td>Wigan Athletic</td>
-                <td>49</td>
-            </tr>
-            <tr>
-                <td>21</td>
-                <td>Burton Albion</td>
-                <td>49</td>
-            </tr>
-            <tr>
-                <td>22</td>
-                <td>Rotherham United</td>
-                <td>48</td>
-            </tr>
-            <tr>
-                <td>23</td>
-                <td>Leyton Orient</td>
-                <td>47</td>
-            </tr>
-            <tr>
-                <td>24</td>
-                <td>Port Vale</td>
-                <td>46</td>
-            </tr>
+            <tr><td>1</td><td>Lincoln City</td><td>89</td></tr>
+            <tr><td>2</td><td>Cardiff City</td><td>87</td></tr>
+            <tr><td>3</td><td>Bradford City</td><td>84</td></tr>
+            <tr><td>4</td><td>Bolton Wanderers</td><td>82</td></tr>
+            <tr><td>5</td><td>Stevenage</td><td>78</td></tr>
+            <tr><td>6</td><td>Huddersfield Town</td><td>74</td></tr>
+            <tr><td>7</td><td>Stockport County</td><td>73</td></tr>
+            <tr><td>8</td><td>Wycombe Wanderers</td><td>65</td></tr>
+            <tr><td>9</td><td>Reading</td><td>64</td></tr>
+            <tr><td>10</td><td>Luton Town</td><td>63</td></tr>
+            <tr><td>11</td><td>Barnsley</td><td>62</td></tr>
+            <tr><td>12</td><td>Exeter City</td><td>60</td></tr>
+            <tr><td>13</td><td>Mansfield Town</td><td>59</td></tr>
+            <tr><td>14</td><td>Plymouth Argyle</td><td>58</td></tr>
+            <tr><td>15</td><td>Peterborough United</td><td>56</td></tr>
+            <tr><td>16</td><td>AFC Wimbledon</td><td>52</td></tr>
+            <tr><td>17</td><td>Doncaster Rovers</td><td>51</td></tr>
+            <tr><td>18</td><td>Northampton Town</td><td>51</td></tr>
+            <tr><td>19</td><td>Blackpool</td><td>50</td></tr>
+            <tr><td>20</td><td>Wigan Athletic</td><td>49</td></tr>
+            <tr><td>21</td><td>Burton Albion</td><td>49</td></tr>
+            <tr><td>22</td><td>Rotherham United</td><td>48</td></tr>
+            <tr><td>23</td><td>Leyton Orient</td><td>47</td></tr>
+            <tr><td>24</td><td>Port Vale</td><td>46</td></tr>
         </tbody>
     </table>
 
-    <h1>⚽ Predict This Round ⚽</h1>
-
-    <div class="team-grid">
-        <!-- Teams with logos -->
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Lincoln_City_FC_crest.svg"
-                    alt="Lincoln City"></div>
-            <h3>Lincoln City</h3><button class="win" onclick="vote('Lincoln City','Win')">Win</button><button
-                class="draw" onclick="vote('Lincoln City','Draw')">Draw</button><button class="lose"
-                onclick="vote('Lincoln City','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/3/3f/Cardiff_City_FC_logo.svg"
-                    alt="Cardiff City"></div>
-            <h3>Cardiff City</h3><button class="win" onclick="vote('Cardiff City','Win')">Win</button><button
-                class="draw" onclick="vote('Cardiff City','Draw')">Draw</button><button class="lose"
-                onclick="vote('Cardiff City','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/4/46/Bradford_City_AFC_logo.svg"
-                    alt="Bradford City"></div>
-            <h3>Bradford City</h3><button class="win" onclick="vote('Bradford City','Win')">Win</button><button
-                class="draw" onclick="vote('Bradford City','Draw')">Draw</button><button class="lose"
-                onclick="vote('Bradford City','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/3/36/Bolton_Wanderers_FC_logo.svg"
-                    alt="Bolton Wanderers"></div>
-            <h3>Bolton Wanderers</h3><button class="win" onclick="vote('Bolton Wanderers','Win')">Win</button><button
-                class="draw" onclick="vote('Bolton Wanderers','Draw')">Draw</button><button class="lose"
-                onclick="vote('Bolton Wanderers','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/d/d7/Stevenage_FC_logo.svg"
-                    alt="Stevenage"></div>
-            <h3>Stevenage</h3><button class="win" onclick="vote('Stevenage','Win')">Win</button><button class="draw"
-                onclick="vote('Stevenage','Draw')">Draw</button><button class="lose"
-                onclick="vote('Stevenage','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/8/89/Huddersfield_Town_AFC_logo.svg"
-                    alt="Huddersfield Town"></div>
-            <h3>Huddersfield Town</h3><button class="win" onclick="vote('Huddersfield Town','Win')">Win</button><button
-                class="draw" onclick="vote('Huddersfield Town','Draw')">Draw</button><button class="lose"
-                onclick="vote('Huddersfield Town','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/e/e9/Stockport_County_FC_logo.svg"
-                    alt="Stockport County"></div>
-            <h3>Stockport County</h3><button class="win" onclick="vote('Stockport County','Win')">Win</button><button
-                class="draw" onclick="vote('Stockport County','Draw')">Draw</button><button class="lose"
-                onclick="vote('Stockport County','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/5/5c/Wycombe_Wanderers_FC_logo.svg"
-                    alt="Wycombe Wanderers"></div>
-            <h3>Wycombe Wanderers</h3><button class="win" onclick="vote('Wycombe Wanderers','Win')">Win</button><button
-                class="draw" onclick="vote('Wycombe Wanderers','Draw')">Draw</button><button class="lose"
-                onclick="vote('Wycombe Wanderers','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/d/dd/Reading_FC_logo.svg"
-                    alt="Reading"></div>
-            <h3>Reading</h3><button class="win" onclick="vote('Reading','Win')">Win</button><button class="draw"
-                onclick="vote('Reading','Draw')">Draw</button><button class="lose"
-                onclick="vote('Reading','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/en/5/51/Luton_Town_FC_crest.svg"
-                    alt="Luton Town"></div>
-            <h3>Luton Town</h3><button class="win" onclick="vote('Luton Town','Win')">Win</button><button class="draw"
-                onclick="vote('Luton Town','Draw')">Draw</button><button class="lose"
-                onclick="vote('Luton Town','Lose')">Lose</button>
-        </div>
-
-        <!-- Placeholder teams -->
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Barnsley</h3><button class="win" onclick="vote('Barnsley','Win')">Win</button><button class="draw"
-                onclick="vote('Barnsley','Draw')">Draw</button><button class="lose"
-                onclick="vote('Barnsley','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Exeter City</h3><button class="win" onclick="vote('Exeter City','Win')">Win</button><button class="draw"
-                onclick="vote('Exeter City','Draw')">Draw</button><button class="lose"
-                onclick="vote('Exeter City','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Mansfield Town</h3><button class="win" onclick="vote('Mansfield Town','Win')">Win</button><button
-                class="draw" onclick="vote('Mansfield Town','Draw')">Draw</button><button class="lose"
-                onclick="vote('Mansfield Town','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Plymouth Argyle</h3><button class="win" onclick="vote('Plymouth Argyle','Win')">Win</button><button
-                class="draw" onclick="vote('Plymouth Argyle','Draw')">Draw</button><button class="lose"
-                onclick="vote('Plymouth Argyle','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Peterborough United</h3><button class="win"
-                onclick="vote('Peterborough United','Win')">Win</button><button class="draw"
-                onclick="vote('Peterborough United','Draw')">Draw</button><button class="lose"
-                onclick="vote('Peterborough United','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>AFC Wimbledon</h3><button class="win" onclick="vote('AFC Wimbledon','Win')">Win</button><button
-                class="draw" onclick="vote('AFC Wimbledon','Draw')">Draw</button><button class="lose"
-                onclick="vote('AFC Wimbledon','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Doncaster Rovers</h3><button class="win" onclick="vote('Doncaster Rovers','Win')">Win</button><button
-                class="draw" onclick="vote('Doncaster Rovers','Draw')">Draw</button><button class="lose"
-                onclick="vote('Doncaster Rovers','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Northampton Town</h3><button class="win" onclick="vote('Northampton Town','Win')">Win</button><button
-                class="draw" onclick="vote('Northampton Town','Draw')">Draw</button><button class="lose"
-                onclick="vote('Northampton Town','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Blackpool</h3><button class="win" onclick="vote('Blackpool','Win')">Win</button><button class="draw"
-                onclick="vote('Blackpool','Draw')">Draw</button><button class="lose"
-                onclick="vote('Blackpool','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Wigan Athletic</h3><button class="win" onclick="vote('Wigan Athletic','Win')">Win</button><button
-                class="draw" onclick="vote('Wigan Athletic','Draw')">Draw</button><button class="lose"
-                onclick="vote('Wigan Athletic','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Burton Albion</h3><button class="win" onclick="vote('Burton Albion','Win')">Win</button><button
-                class="draw" onclick="vote('Burton Albion','Draw')">Draw</button><button class="lose"
-                onclick="vote('Burton Albion','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Rotherham United</h3><button class="win" onclick="vote('Rotherham United','Win')">Win</button><button
-                class="draw" onclick="vote('Rotherham United','Draw')">Draw</button><button class="lose"
-                onclick="vote('Rotherham United','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Leyton Orient</h3><button class="win" onclick="vote('Leyton Orient','Win')">Win</button><button
-                class="draw" onclick="vote('Leyton Orient','Draw')">Draw</button><button class="lose"
-                onclick="vote('Leyton Orient','Lose')">Lose</button>
-        </div>
-        <div class="team">
-            <div class="logo-placeholder">⚽</div>
-            <h3>Port Vale</h3><button class="win" onclick="vote('Port Vale','Win')">Win</button><button class="draw"
-                onclick="vote('Port Vale','Draw')">Draw</button><button class="lose"
-                onclick="vote('Port Vale','Lose')">Lose</button>
-        </div>
-    </div>
-
-    <div id="voteResults">
-        <h2>Vote Results</h2>
-    </div>
-    <div id="leaderboard">
-        <h2>Leaderboard</h2>
-        <ol id="leaderboardList"></ol>
-    </div>
-
     <script>
         const votes = JSON.parse(localStorage.getItem('votes')) || {};
-
         function vote(team, result) {
             if (!votes[team]) votes[team] = { Win: 0, Draw: 0, Lose: 0 };
             votes[team][result]++;
             localStorage.setItem('votes', JSON.stringify(votes));
             displayVotes();
         }
-
         function displayVotes() {
             const resultsDiv = document.getElementById("voteResults");
             let html = "<h2>Vote Results</h2>";
-            for (let team in votes) {
-                html += `<p><strong>${team}</strong> — Win: ${votes[team].Win}, Draw: ${votes[team].Draw}, Lose: ${votes[team].Lose}</p>`;
-            }
+            for (let t in votes) html += `<p><strong>${t}</strong> — Win: ${votes[t].Win}, Draw: ${votes[t].Draw}, Lose: ${votes[t].Lose}</p>`;
             resultsDiv.innerHTML = html;
             updateLeaderboard();
         }
-
         function updateLeaderboard() {
-            const leaderboard = document.getElementById("leaderboardList");
-            const sortedTeams = Object.entries(votes)
-                .sort((a, b) => b[1].Win - a[1].Win)
-                .slice(0, 5);
-            leaderboard.innerHTML = "";
-            sortedTeams.forEach(([team, voteCounts]) => {
-                const li = document.createElement("li");
-                li.textContent = `${team} — Wins: ${voteCounts.Win}`;
-                leaderboard.appendChild(li);
+            const lb = document.getElementById("leaderboardList");
+            const sorted = Object.entries(votes).sort((a,b)=>b[1].Win - a[1].Win).slice(0,5);
+            lb.innerHTML = "";
+            sorted.forEach(([team, counts]) => {
+                const li=document.createElement("li");
+                li.textContent=`${team} — Wins: ${counts.Win}`;
+                lb.appendChild(li);
             });
         }
-
         displayVotes();
     </script>
 
 </body>
+</html>
 
 </html>
