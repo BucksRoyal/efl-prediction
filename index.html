@@ -190,6 +190,44 @@
                 transform: translateX(-100%);
             }
         }
+
+        /* ------------------- TABS ------------------- */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #2a5298;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tab-button:hover {
+            background-color: #1e3c72;
+        }
+
+        .tab-button.active {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        .tab-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .tab-section.active {
+            display: block;
+        }
     </style>
 </head>
 
@@ -204,191 +242,88 @@
         <h2 class="subtitle">Predict this week’s results and see if you can top the leaderboard!</h2>
     </div>
 
+    <!-- ------------------- TICKER ------------------- -->
     <div class="ticker">
-        <p id="tickerText">Loading stats...</p>
+        <p id="tickerText"></p>
     </div>
 
+    <!-- ------------------- LIVE TABLE ------------------- -->
     <h1>Live League One Table</h1>
     <div class="fwp-embed" data-url="league-one/league-table"></div>
     <script src="https://www.footballwebpages.co.uk/embed.js" defer></script>
 
-    <h1>Enter Your Score Predictions</h1>
-    <div id="fixtures" class="team-grid"></div>
-    <button id="resetButton">Reset My Predictions</button>
-
-    <select id="userSelect"></select>
-    <button id="addUserButton">Add New User</button>
-    <button id="switchUserButton">Switch User</button>
-
-    <div id="leaderboard">
-        <h2>Leaderboard</h2>
-        <ol id="leaderboardList"></ol>
+    <!-- ------------------- TABS ------------------- -->
+    <div class="tabs">
+        <button class="tab-button active" data-tab="current">Current Predictions</button>
+        <button class="tab-button" data-tab="previous">Previous Results</button>
     </div>
 
-    <h1>Predicted End of Season Table</h1>
-    <table id="predicted-table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Team</th>
-                <th>PL</th>
-                <th>W</th>
-                <th>D</th>
-                <th>L</th>
-                <th>GF</th>
-                <th>GA</th>
-                <th>GD</th>
-                <th>Pts</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <!-- ------------------- TAB CONTENT ------------------- -->
+    <!-- Current Predictions Tab -->
+    <div class="tab-section active" id="current">
+        <div id="fixtures" class="team-grid"></div>
+
+        <button id="resetButton">Reset My Predictions</button>
+        <button id="savePredictionsButton">Save My Predictions</button>
+
+        <select id="userSelect"></select>
+        <button id="addUserButton">Add New User</button>
+        <button id="switchUserButton">Switch User</button>
+
+        <!-- Leaderboard -->
+        <div id="leaderboard">
+            <h2>Leaderboard</h2>
+            <ol id="leaderboardList"></ol>
+        </div>
+
+        <!-- Predicted End of Season Table -->
+        <h2>Predicted End of Season Table</h2>
+        <table id="predicted-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Team</th>
+                    <th>PL</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>GD</th>
+                    <th>Pts</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+    <!-- Previous Results Tab -->
+    <div class="tab-section" id="previous">
+        <div id="previous-fixtures"></div>
+        <h2>Predicted End of Season Table</h2>
+        <table id="predicted-table-previous">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Team</th>
+                    <th>PL</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>GD</th>
+                    <th>Pts</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
     <script>
-        // ------------------- USERS -------------------
-        let userPredictions = JSON.parse(localStorage.getItem('userPredictions')) || {};
-
-        let username = localStorage.getItem("username");
-
-        if (!username) {
-            username = prompt("Enter your name to play:");
-            if (username) {
-                localStorage.setItem("username", username);
-            }
-        }
-
-        // Ensure user exists in predictions object
-        if (username && !userPredictions[username]) {
-            userPredictions[username] = {};
-            localStorage.setItem("userPredictions", JSON.stringify(userPredictions));
-        }
-
-        function populateUserDropdown() {
-            const select = document.getElementById("userSelect");
-            select.innerHTML = "";
-
-            Object.keys(userPredictions).forEach(user => {
-                const option = document.createElement("option");
-                option.value = user;
-                option.textContent = user;
-                if (user === username) option.selected = true;
-                select.appendChild(option);
-            });
-        }
-
-        // ------------------- FIXTURES -------------------
-        const allFixtures = [
-            { home: "Mansfield Town", away: "Peterborough United", date: "2026-02-10" },
-            { home: "Stevenage", away: "Barnsley", date: "2026-02-10" },
-            { home: "Wigan Athletic", away: "Reading", date: "2026-02-10" },
-            { home: "Reading", away: "Wycombe Wanderers", date: "2026-02-14" },
-            { home: "Stevenage", away: "Huddersfield Town", date: "2026-02-14" },
-            { home: "Barnsley", away: "AFC Wimbledon", date: "2026-02-14" },
-            { home: "Blackpool", away: "Plymouth Argyle", date: "2026-02-14" },
-            { home: "Bradford City", away: "Peterborough United", date: "2026-02-14" },
-            { home: "Cardiff City", away: "Luton Town", date: "2026-02-14" },
-            { home: "Doncaster Rovers", away: "Port Vale", date: "2026-02-14" },
-            { home: "Exeter City", away: "Northampton Town", date: "2026-02-14" },
-            { home: "Lincoln City", away: "Bolton Wanderers", date: "2026-02-14" },
-        ];
-
-        const stats = [
-            "Longest Winning Run: Lincoln City - 12 games",
-            "Longest Unbeaten Run: Cardiff City - 15 games",
-            "Top Scorer: John Smith (Bradford City) - 21 goals",
-            "Top Assist Maker: Alex Brown (Bolton Wanderers) - 14 assists"
-        ];
-        document.getElementById("tickerText").textContent = stats.join(" • ");
-
-        // ------------------- UTILS -------------------
-        function parseDate(str) { const [y, m, d] = str.split("-").map(Number); return new Date(y, m - 1, d); }
-        function formatDate(str) { const [y, m, d] = str.split("-").map(Number); return `${d}/${m}/${y}`; }
-        function getNextGameDay(fixtures) {
-            const today = new Date(); today.setHours(0, 0, 0, 0);
-            const future = fixtures.filter(f => parseDate(f.date) >= today);
-            if (!future.length) return [];
-            const nextDate = future.map(f => f.date).sort()[0];
-            return fixtures.filter(f => f.date === nextDate);
-        }
-
-        function renderFixtures() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            // Upcoming fixtures
-            const nextGameDay = getNextGameDay(allFixtures);
-
-            // Past fixtures
-            const pastFixtures = allFixtures.filter(f => parseDate(f.date) < today);
-
-            const container = document.getElementById("fixtures");
-            container.innerHTML = "";
-
-            // --- Render upcoming fixtures (editable) ---
-            nextGameDay.forEach((match, index) => {
-                const id = `match-${match.date}-${index}`;
-                const prediction = userPredictions[username]?.[id] || { homeScore: 0, awayScore: 0 };
-
-                const div = document.createElement("div");
-                div.className = "team";
-                div.innerHTML = `
-            <h3>
-                <img class="badge" src="badges/${match.home.toLowerCase().replace(/ /g, '-')}.png" alt="${match.home}">
-                ${match.home} vs
-                <img class="badge" src="badges/${match.away.toLowerCase().replace(/ /g, '-')}.png" alt="${match.away}">
-                ${match.away}
-            </h3>
-            <p>${formatDate(match.date)}</p>
-            <div class="score-prediction">
-                <input type="number" min="0" max="10" class="score-input home-score" value="${prediction.homeScore}" onchange="saveScore('${id}')">
-                <span>-</span>
-                <input type="number" min="0" max="10" class="score-input away-score" value="${prediction.awayScore}" onchange="saveScore('${id}')">
-            </div>`;
-                container.appendChild(div);
-            });
-
-            // --- Render past fixtures (read-only) ---
-            if (pastFixtures.length > 0) {
-                const pastHeader = document.createElement("h3");
-                pastHeader.textContent = "Previous Fixtures";
-                container.appendChild(pastHeader);
-
-                pastFixtures.forEach((fixture, index) => {
-                    const matchDiv = document.createElement("div");
-                    matchDiv.className = "fixture";
-
-                    const prediction = userPredictions[username]?.[`match-${fixture.date}-${index}`] || {};
-
-                    matchDiv.innerHTML = `
-                <span>${fixture.home}</span>
-                <input type="number" value="${prediction.home ?? ''}" disabled>
-                -
-                <input type="number" value="${prediction.away ?? ''}" disabled>
-                <span>${fixture.away}</span>
-            `;
-                    container.appendChild(matchDiv);
-                });
-            }
-
-            // --- Predicted table and leaderboard ---
-            generatePredictedTable();
-            updateLeaderboard();
-        }
-
-        function saveScore(id) {
-            if (!userPredictions[username]) userPredictions[username] = {};
-            const idx = parseInt(id.split('-')[2]);
-            const matchDiv = document.querySelector(`#fixtures .team:nth-child(${idx + 1})`);
-            const homeScore = Number(matchDiv.querySelector(".home-score").value);
-            const awayScore = Number(matchDiv.querySelector(".away-score").value);
-            userPredictions[username][id] = { homeScore, awayScore };
-            localStorage.setItem('userPredictions', JSON.stringify(userPredictions));
-            updateLeaderboard();
-        }
-
-        // ------------------- PREDICTED TABLE -------------------
-        function generatePredictedTable() {
-            const tbody = document.querySelector("#predicted-table tbody");
+        function generatePredictedTablePrevious() {
+            const tbody = document.querySelector("#predicted-table-previous tbody");
             tbody.innerHTML = "";
 
             const predictedTable = [
@@ -422,65 +357,355 @@
 
             predictedTable.forEach((t, index) => {
                 const row = document.createElement("tr");
-                row.innerHTML = `<td>${index + 1}</td><td>${t.team}</td><td>${t.PL}</td><td>${t.W}</td><td>${t.D}</td><td>${t.L}</td><td>${t.GF}</td><td>${t.GA}</td><td>${t.GD}</td><td>${t.Pts}</td>`;
+                row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${t.team}</td>
+                <td>${t.PL}</td>
+                <td>${t.W}</td>
+                <td>${t.D}</td>
+                <td>${t.L}</td>
+                <td>${t.GF}</td>
+                <td>${t.GA}</td>
+                <td>${t.GD}</td>
+                <td>${t.Pts}</td>
+            `;
                 tbody.appendChild(row);
             });
         }
 
-        // ------------------- LEADERBOARD -------------------
-        async function updateLeaderboard() {
-            const leaderboard = document.getElementById("leaderboardList");
-            leaderboard.innerHTML = "";
+        // Call the function to render the table
+        generatePredictedTablePrevious();
+    </script>
 
-            let results = {};
-            try {
-                const resp = await fetch('results.json');
-                results = await resp.json();
-            } catch (e) { console.log("Could not load results.json"); }
+    <script>
+        // ------------------- TABS -------------------
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabSections = document.querySelectorAll('.tab-section');
 
-            const userScores = {};
-            Object.keys(userPredictions).forEach(user => {
-                let score = 0;
-                const predictions = userPredictions[user];
-                Object.keys(predictions).forEach(matchId => {
-                    const predicted = predictions[matchId];
-                    const actual = results[matchId];
-                    if (!actual) return;
-                    if (predicted.homeScore === actual.homeScore && predicted.awayScore === actual.awayScore) score += 3;
-                    else if ((predicted.homeScore - predicted.awayScore) * (actual.homeScore - actual.awayScore) > 0 || (predicted.homeScore === predicted.awayScore && actual.homeScore === actual.awayScore)) score += 2;
-                });
-                userScores[user] = score;
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                tabSections.forEach(s => s.classList.remove('active'));
+                document.getElementById(btn.dataset.tab).classList.add('active');
             });
+        });
 
-            Object.keys(userScores).sort((a, b) => userScores[b] - userScores[a]).forEach(user => {
-                const li = document.createElement("li");
-                li.textContent = `${user}: ${userScores[user]} pts`;
-                leaderboard.appendChild(li);
+        // ------------------- TICKER -------------------
+        const stats = [
+            "Longest Winning Run: Lincoln City - 12 games",
+            "Longest Unbeaten Run: Cardiff City - 15 games",
+            "Top Scorer: John Smith (Bradford City) - 21 goals",
+            "Top Assist Maker: Alex Brown (Bolton Wanderers) - 14 assists"
+        ];
+        document.getElementById("tickerText").textContent = stats.join(" • ");
+
+        // ------------------- USERS -------------------
+        let userPredictions = JSON.parse(localStorage.getItem('userPredictions')) || {};
+        let username = localStorage.getItem("username");
+        if (!username) {
+            username = prompt("Enter your name to play:");
+            if (username) localStorage.setItem("username", username);
+        }
+        if (username && !userPredictions[username]) {
+            userPredictions[username] = {};
+        }
+
+        function populateUserDropdown() {
+            const select = document.getElementById("userSelect");
+            select.innerHTML = "";
+            Object.keys(userPredictions).forEach(user => {
+                const option = document.createElement("option");
+                option.value = user;
+                option.textContent = user;
+                if (user === username) option.selected = true;
+                select.appendChild(option);
             });
         }
 
-        document.getElementById("resetButton").addEventListener("click", () => {
-            if (confirm("Reset all your predictions?")) {
-                userPredictions[username] = {};
-                localStorage.setItem('userPredictions', JSON.stringify(userPredictions));
-                renderFixtures();
-            }
-        });
-
-        document.getElementById("addUserButton").addEventListener("click", () => {
-            const newUser = prompt("Enter new username:");
-            if (newUser && !userPredictions[newUser]) {
-                userPredictions[newUser] = {};
-                localStorage.setItem('userPredictions', JSON.stringify(userPredictions));
-                username = newUser;
-                localStorage.setItem("username", username);
-                populateUserDropdown();
-                renderFixtures();
-            }
-        });
-
         populateUserDropdown();
+        // ------------------- SAVE PREDICTIONS BUTTON -------------------
+        document.getElementById("savePredictionsButton").addEventListener("click", () => {
+            if (!userPredictions[username]) userPredictions[username] = {};
+
+            // Loop through each fixture and save current scores
+            document.querySelectorAll("#fixtures .team").forEach((matchDiv, index) => {
+                const id = `match-${allFixtures[index].date}-${index}`;
+                const homeScore = Number(matchDiv.querySelector(".home-score").value);
+                const awayScore = Number(matchDiv.querySelector(".away-score").value);
+                userPredictions[username][id] = { homeScore, awayScore };
+            });
+
+            // Save to localStorage
+            localStorage.setItem("userPredictions", JSON.stringify(userPredictions));
+            alert("Predictions saved for " + username + "!");
+        });
+
+        // ------------------- SWITCH USER BUTTON -------------------
+        document.getElementById("switchUserButton").addEventListener("click", () => {
+            const select = document.getElementById("userSelect");
+            select.style.display = select.style.display === "inline-block" ? "none" : "inline-block";
+
+            select.addEventListener("change", () => {
+                username = select.value;
+                localStorage.setItem("username", username);
+
+                // Re-render fixtures and leaderboard for the new user
+                renderFixtures();
+                generatePredictedTable();
+                populateLeaderboard();
+                select.style.display = "none"; // hide after selection
+            }, { once: true });
+        });
+
+        // Optional: Hide the dropdown initially
+        document.getElementById("userSelect").style.display = "none";
+
+        // ------------------- FIXTURES -------------------
+        const allFixtures = [
+            { home: "Mansfield Town", away: "Peterborough United", date: "2026-02-10" },
+            { home: "Stevenage", away: "Barnsley", date: "2026-02-10" },
+            { home: "Wigan Athletic", away: "Reading", date: "2026-02-10" },
+            { home: "Reading", away: "Wycombe Wanderers", date: "2026-02-14" },
+            { home: "Stevenage", away: "Huddersfield Town", date: "2026-02-14" },
+            { home: "Barnsley", away: "AFC Wimbledon", date: "2026-02-14" },
+            { home: "Blackpool", away: "Plymouth Argyle", date: "2026-02-14" },
+            { home: "Bradford City", away: "Peterborough United", date: "2026-02-14" },
+            { home: "Cardiff City", away: "Luton Town", date: "2026-02-14" },
+            { home: "Doncaster Rovers", away: "Port Vale", date: "2026-02-14" },
+            { home: "Exeter City", away: "Northampton Town", date: "2026-02-14" },
+            { home: "Lincoln City", away: "Bolton Wanderers", date: "2026-02-14" }
+        ];
+
+        function parseDate(str) { const [y, m, d] = str.split("-").map(Number); return new Date(y, m - 1, d); }
+        function formatDate(str) { const [y, m, d] = str.split("-").map(Number); return `${d}/${m}/${y}`; }
+
+        function getCurrentWeekFixtures(fixtures) {
+            const now = new Date();
+            const day = now.getDay(); // 0 = Sunday, 6 = Saturday
+
+            // Get Sunday of this week
+            const sunday = new Date(now);
+            sunday.setDate(now.getDate() - day);
+            sunday.setHours(0, 0, 0, 0);
+
+            // Get Saturday of this week
+            const saturday = new Date(sunday);
+            saturday.setDate(sunday.getDate() + 6);
+            saturday.setHours(23, 59, 59, 999);
+
+            // Filter fixtures in this week
+            return fixtures.filter(f => {
+                const matchDate = parseDate(f.date);
+                return matchDate >= sunday && matchDate <= saturday;
+            });
+        }
+
+        function renderFixtures() {
+            const thisWeekFixtures = getCurrentWeekFixtures(allFixtures);
+            const container = document.getElementById("fixtures");
+            container.innerHTML = "";
+
+            if (!thisWeekFixtures.length) {
+                container.innerHTML = "<p>No fixtures this week.</p>";
+                return;
+            }
+
+            thisWeekFixtures.forEach((match, index) => {
+                const id = `match-${match.date}-${index}`;
+                const prediction = userPredictions[username]?.[id] || { homeScore: 0, awayScore: 0 };
+                const div = document.createElement("div");
+                div.className = "team";
+                div.innerHTML = `
+            <h3>
+                <img class="badge" src="badges/${match.home.toLowerCase().replace(/ /g, '-')}.png" alt="${match.home}">
+                ${match.home} vs
+                <img class="badge" src="badges/${match.away.toLowerCase().replace(/ /g, '-')}.png" alt="${match.away}">
+                ${match.away}
+            </h3>
+            <p>${formatDate(match.date)}</p>
+            <div class="score-prediction">
+                <input type="number" min="0" max="10" class="score-input home-score" value="${prediction.homeScore}" onchange="saveScore('${id}')">
+                <span>-</span>
+                <input type="number" min="0" max="10" class="score-input away-score" value="${prediction.awayScore}" onchange="saveScore('${id}')">
+            </div>
+        `;
+                container.appendChild(div);
+            });
+        }
+
+        function archiveCompletedGames() {
+            const now = new Date();
+            const todayDay = now.getDay(); // 0 = Sunday, 6 = Saturday
+
+            // Only archive after Saturday 11:59 PM
+            if (todayDay === 6 && now.getHours() === 23 && now.getMinutes() >= 59) {
+                let previousGames = JSON.parse(localStorage.getItem("previousGames")) || [];
+
+                allFixtures.forEach(game => {
+                    if (!previousGames.some(g => g.home === game.home && g.away === game.away && g.date === game.date)) {
+                        previousGames.push(game);
+                    }
+                });
+
+                localStorage.setItem("previousGames", JSON.stringify(previousGames));
+
+                // Remove completed games from current fixtures
+                const remaining = allFixtures.filter(f => parseDate(f.date) > now);
+                allFixtures.length = 0;
+                remaining.forEach(f => allFixtures.push(f));
+
+                renderFixtures();
+                renderPreviousResults();
+            }
+        }
+
+        function renderPreviousResults() {
+            const container = document.getElementById("previous-fixtures");
+            container.innerHTML = "";
+
+            const previousGames = JSON.parse(localStorage.getItem("previousGames")) || [];
+            if (!previousGames.length) {
+                container.innerHTML = "<p>No previous results yet.</p>";
+                return;
+            }
+
+            previousGames.forEach((match, index) => {
+                const div = document.createElement("div");
+                div.className = "team";
+                div.innerHTML = `
+            <h3>
+                <img class="badge" src="badges/${match.home.toLowerCase().replace(/ /g, '-')}.png" alt="${match.home}">
+                ${match.home} vs
+                <img class="badge" src="badges/${match.away.toLowerCase().replace(/ /g, '-')}.png" alt="${match.away}">
+                ${match.away}
+            </h3>
+            <p>${formatDate(match.date)}</p>
+        `;
+                container.appendChild(div);
+            });
+        }
+
         renderFixtures();
+        generatePredictedTable();
+        archiveCompletedGames();
+        renderPreviousResults();
+
+        // ------------------- PREDICTED TABLE -------------------
+        function generatePredictedTable() {
+            const tbody = document.querySelector("#predicted-table tbody");
+            tbody.innerHTML = "";
+
+            // Sample predicted table
+            const predictedTable = [
+                { team: "Cardiff City", PL: 46, W: 33, D: 5, L: 8, GF: 86, GA: 36, GD: 50, Pts: 99 },
+                { team: "Lincoln City", PL: 46, W: 30, D: 6, L: 10, GF: 81, GA: 41, GD: 40, Pts: 91 },
+                { team: "Stockport County", PL: 46, W: 27, D: 7, L: 12, GF: 76, GA: 47, GD: 29, Pts: 87 },
+                { team: "Bradford City", PL: 46, W: 28, D: 6, L: 12, GF: 78, GA: 46, GD: 32, Pts: 85 },
+                { team: "Bolton Wanderers", PL: 46, W: 26, D: 7, L: 13, GF: 73, GA: 44, GD: 29, Pts: 85 },
+                { team: "Barnsley", PL: 46, W: 25, D: 9, L: 12, GF: 71, GA: 48, GD: 23, Pts: 81 },
+                { team: "Mansfield Town", PL: 46, W: 23, D: 8, L: 15, GF: 66, GA: 53, GD: 13, Pts: 74 },
+                { team: "Peterborough United", PL: 46, W: 21, D: 9, L: 16, GF: 63, GA: 54, GD: 9, Pts: 70 },
+                { team: "Reading", PL: 46, W: 19, D: 10, L: 17, GF: 58, GA: 55, GD: 3, Pts: 64 },
+                { team: "Stevenage", PL: 46, W: 19, D: 8, L: 19, GF: 57, GA: 56, GD: 1, Pts: 64 },
+                { team: "Wycombe Wanderers", PL: 46, W: 18, D: 8, L: 20, GF: 55, GA: 57, GD: -2, Pts: 60 },
+                { team: "Huddersfield Town", PL: 46, W: 16, D: 8, L: 22, GF: 53, GA: 59, GD: -6, Pts: 57 },
+                { team: "Luton Town", PL: 46, W: 17, D: 7, L: 22, GF: 54, GA: 57, GD: -3, Pts: 54 },
+                { team: "AFC Wimbledon", PL: 46, W: 16, D: 8, L: 22, GF: 52, GA: 56, GD: -4, Pts: 54 },
+                { team: "Exeter City", PL: 46, W: 15, D: 7, L: 24, GF: 50, GA: 57, GD: -7, Pts: 50 },
+                { team: "Plymouth Argyle", PL: 46, W: 13, D: 6, L: 27, GF: 46, GA: 56, GD: -10, Pts: 45 },
+                { team: "Wigan Athletic", PL: 46, W: 14, D: 6, L: 26, GF: 48, GA: 58, GD: -10, Pts: 55 },
+                { team: "Burton Albion", PL: 46, W: 13, D: 7, L: 26, GF: 46, GA: 57, GD: -11, Pts: 53 },
+                { team: "Leyton Orient", PL: 46, W: 12, D: 7, L: 27, GF: 44, GA: 58, GD: -14, Pts: 50 },
+                { team: "Blackpool", PL: 46, W: 11, D: 6, L: 29, GF: 42, GA: 59, GD: -17, Pts: 41 },
+                { team: "Northampton Town", PL: 46, W: 10, D: 6, L: 30, GF: 40, GA: 60, GD: -20, Pts: 40 },
+                { team: "Doncaster Rovers", PL: 46, W: 10, D: 5, L: 31, GF: 39, GA: 61, GD: -22, Pts: 40 },
+                { team: "Rotherham United", PL: 46, W: 12, D: 5, L: 29, GF: 43, GA: 59, GD: -16, Pts: 50 },
+                { team: "Port Vale", PL: 46, W: 8, D: 7, L: 31, GF: 35, GA: 60, GD: -25, Pts: 29 }
+            ];
+
+            // Sort by points
+            predictedTable.sort((a, b) => b.Pts - a.Pts);
+
+            predictedTable.forEach((t, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${t.team}</td>
+            <td>${t.PL}</td>
+            <td>${t.W}</td>
+            <td>${t.D}</td>
+            <td>${t.L}</td>
+            <td>${t.GF}</td>
+            <td>${t.GA}</td>
+            <td>${t.GD}</td>
+            <td>${t.Pts}</td>
+        `;
+                tbody.appendChild(row);
+            });
+        }
+        // ------------------- ARCHIVE COMPLETED GAMES -------------------
+        function archiveCompletedGames() {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0); // ignore time
+
+            // Get completed games (today or earlier)
+            const completedGames = allFixtures.filter(f => parseDate(f.date) <= now);
+
+            // Save completed games to localStorage for Previous Results
+            let previousGames = JSON.parse(localStorage.getItem("previousGames")) || [];
+
+            completedGames.forEach(game => {
+                // Avoid duplicates
+                if (!previousGames.some(g => g.home === game.home && g.away === game.away && g.date === game.date)) {
+                    previousGames.push(game);
+                }
+            });
+
+            localStorage.setItem("previousGames", JSON.stringify(previousGames));
+
+            // Remove completed games from Current Predictions
+            const remainingFixtures = allFixtures.filter(f => parseDate(f.date) > now);
+            allFixtures.length = 0; // clear array
+            remainingFixtures.forEach(f => allFixtures.push(f));
+
+            // Re-render tabs
+            renderFixtures();
+            renderPreviousResults();
+        }
+
+        // ------------------- RENDER PREVIOUS RESULTS -------------------
+        function renderPreviousResults() {
+            const container = document.getElementById("previous-fixtures");
+            container.innerHTML = "";
+
+            const previousGames = JSON.parse(localStorage.getItem("previousGames")) || [];
+
+            if (!previousGames.length) {
+                container.innerHTML = "<p>No previous results yet.</p>";
+                return;
+            }
+
+            previousGames.forEach(match => {
+                const div = document.createElement("div");
+                div.className = "team";
+                div.innerHTML = `
+                <h3>
+                    <img class="badge" src="badges/${match.home.toLowerCase().replace(/ /g, '-')}.png" alt="${match.home}">
+                    ${match.home} vs
+                    <img class="badge" src="badges/${match.away.toLowerCase().replace(/ /g, '-')}.png" alt="${match.away}">
+                    ${match.away}
+                </h3>
+                <p>${formatDate(match.date)}</p>
+            `;
+                container.appendChild(div);
+            });
+        }
+
+        // ------------------- INITIALIZE -------------------
+        archiveCompletedGames(); // move completed games automatically
+        renderPreviousResults(); // display them in Previous tab
+
     </script>
 
 </body>
